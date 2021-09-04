@@ -31,6 +31,7 @@ This documentation page is automatically generated using the [swagger](https://s
 List of available routes:
 
 **Random routes**:
+
 `GET /v1/random/generate` - generate\
 `GET /v1/random/report` - report\
 `GET /v1/random/file/:filename` - download data file\
