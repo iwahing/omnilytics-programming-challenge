@@ -1,40 +1,37 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import logger from '../../utils/logger';
-import commmon from '../../common';
 import common from '../../common';
-import fs from 'fs';
 
 const data: any = [];
 const fileName: string = 'data.txt';
 
-const generateData = async (
-  req: Request,
-  res: Response,
-): Promise<Response<any, Record<string, any>>> => {
+const generateData = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
   logger.debug('Generating Data');
 
   const currentData: (string | number)[] = Array(4)
     .fill(0)
-    .map((_) => {
-      const fixSize = parseInt(commmon.generator.generateCustom(1, '123456789'));
-      const dataType = parseInt(commmon.generator.generateCustom(1, '0123'));
+    .map(() => {
+      const fixSize = parseInt(common.generator.generateCustom(1, '123456789'), 10);
+      const dataType = parseInt(common.generator.generateCustom(1, '0123'), 10);
 
       if (dataType === 1) {
-        return commmon.generator.generateAlpha(fixSize);
-      } else if (dataType === 2) {
-        return commmon.generator.generateAlphanumeric(fixSize);
-      } else if (dataType === 3) {
-        return commmon.generator.generateInteger(fixSize);
-      } else {
-        return commmon.generator.generateNumber(fixSize);
+        return common.generator.generateAlpha(fixSize);
       }
+      if (dataType === 2) {
+        return common.generator.generateAlphanumeric(fixSize);
+      }
+      if (dataType === 3) {
+        return common.generator.generateInteger(fixSize);
+      }
+      return common.generator.generateNumber(fixSize);
     });
 
   logger.debug(`Data Generated:\n\t\t\t[${currentData}]`);
   data.push(currentData);
 
   const reponseData = {
-    data: data,
+    data,
     link: fileName,
   };
 
@@ -44,10 +41,7 @@ const generateData = async (
   });
 };
 
-const reportData = async (
-  req: Request,
-  res: Response,
-): Promise<Response<any, Record<string, any>>> => {
+const reportData = async (req: Request, res: Response): Promise<Response<any, Record<string, any>>> => {
   const report = {
     number_of_alpha: 0,
     number_of_numbers: 0,
@@ -57,14 +51,14 @@ const reportData = async (
 
   data.forEach((item: any[]) => {
     item.forEach((element) => {
-      if (commmon.utils.isAlpha(element)) {
-        ++report.number_of_alpha;
-      } else if (commmon.utils.isFloat(element)) {
-        ++report.number_of_numbers;
-      } else if (commmon.utils.isInteger(element)) {
-        ++report.number_of_integers;
-      } else if (commmon.utils.isAlphaNumeric(element)) {
-        ++report.number_of_alphanumeric;
+      if (common.utils.isAlpha(element)) {
+        report.number_of_alpha += 1;
+      } else if (common.utils.isFloat(element)) {
+        report.number_of_numbers += 1;
+      } else if (common.utils.isInteger(element)) {
+        report.number_of_integers += 1;
+      } else if (common.utils.isAlphaNumeric(element)) {
+        report.number_of_alphanumeric += 1;
       }
     });
   });
@@ -77,10 +71,7 @@ const reportData = async (
   });
 };
 
-const downloadData = async (
-  req: Request,
-  res: Response,
-): Promise<void | Response<any, Record<string, any>>> => {
+const downloadData = async (req: Request, res: Response): Promise<void | Response<any, Record<string, any>>> => {
   if (req.params.filename !== fileName) {
     return res.status(400).json({
       message: `${req.params.filename} does not exist`,
@@ -92,13 +83,11 @@ const downloadData = async (
 
     return res.download(fileName, (err) => {
       if (err) {
-        logger.debug(`Error while exporting ${fileName}: ${err.message}`);
-        return res.status(500).json({
-          message: err.message,
-        });
+        throw new Error(`Error while exporting ${fileName}: ${err.message}`);
       }
     });
   } catch (err: any) {
+    logger.info(`Error while exporting ${fileName}: ${err.message}`);
     return res.status(500).json({
       message: err.message,
     });

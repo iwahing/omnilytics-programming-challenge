@@ -11,9 +11,7 @@ const envVarsSchema = joi
   })
   .unknown();
 
-const { value: envVars, error } = envVarsSchema
-  .prefs({ errors: { label: 'key' } })
-  .validate(process.env);
+const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate(process.env);
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);

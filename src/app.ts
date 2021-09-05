@@ -1,12 +1,10 @@
 import express from 'express';
 import jsend from 'jsend';
 import cors from 'cors';
-import morgan from './middleware/morgan';
-import router from './routes/router';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import config from './utils/config';
-import logger from './utils/logger';
+import morgan from './middleware/morgan';
+import router from './routes/router';
 
 const app = express();
 

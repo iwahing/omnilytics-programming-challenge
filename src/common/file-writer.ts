@@ -1,5 +1,4 @@
 import fs from 'fs';
-import logger from '../utils/logger';
 import parser from './parser';
 
 const appendToFile = async (fileName: string, data: string): Promise<void> => {
