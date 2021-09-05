@@ -1,6 +1,6 @@
 # Omnilytics Programming Challenge
 
-Backend implementation to the omnilytics programming challenge
+Backend implementation to the omnilytics programming challenge using NodeJS + Express + Typescript
 
 ## Description
 
@@ -28,8 +28,10 @@ This documentation page is automatically generated using the [swagger](https://s
 
 ### API Endpoints
 
-List of available routes:\
-**Random routes**:\
+List of available routes:
+
+**Random routes**:
+
 `GET /v1/random/generate` - generate\
 `GET /v1/random/report` - report\
 `GET /v1/random/file/:filename` - download data file\
@@ -50,7 +52,7 @@ Installation package
 npm install
 ```
 
-Running in development\
+Running in development
 
 Setup .env (optional)
 
@@ -77,7 +79,8 @@ Building to vanilla javascript
 npm run build
 ```
 
-Linting:\
+Linting:
+
 Linting is done using [ESLint](https://eslint.org/) and [Prettier](https://prettier.io).
 
 ```bash
@@ -92,7 +95,7 @@ Testing: `Not implemented yet`
 
 ### Logging
 
-Logs are generated in `logs/` folder
+Logs files are generated in `logs/` folder
 
 ## Version History
 
