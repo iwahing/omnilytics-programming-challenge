@@ -1,12 +1,14 @@
 module.exports = {
+  root: true,
   env: {
+    node: true,
     browser: true,
-    es2021: true,
+    jest: true,
   },
-  extends: ['airbnb-base', 'prettier'],
+  extends: ['airbnb-base', 'airbnb-typescript/base', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 12,
+    project: 'tsconfig.json',
     sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'no-loops', 'prettier'],
@@ -15,12 +17,16 @@ module.exports = {
     'no-loops/no-loops': 2,
     'prettier/prettier': 2,
     'import/extensions': 'off',
+    "@typescript-eslint/indent": ["error", 2],
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error"
   },
   settings: {
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.ts'],
       },
     },
   },
+  ignorePatterns: ['.eslintrc.js']
 };
